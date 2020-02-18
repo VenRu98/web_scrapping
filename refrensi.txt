@@ -1,0 +1,11 @@
+daftar pustaka:
+
+https://www.progresstech.co.id/blog/pengertian-e-commerce/
+E-commerce adalah kegiatan jual beli barang/jasa  atau transmisi data/data melalui jaringan elektronik terutama internet. Kini E-commerce telah mengalami berbagai macam perkembangan mulai dari fungsi sampai kepada jenis bisnis e-commerce yang berbeda. E-commerce memiliki 7 (tujuh) bentuk bisnis yang berbeda, yaitu; Business-to-Business (B2B), Business-to-Consumer (B2C), Consumer-to-Consumer (C2C), Consumer-to-Business (C2B), Business-to-Administration (B2A), Consumer-to-Administration (C2A), dan Online-to-Offline (O2O). 
+
+https://pesonainformatika.com/other-notes/apa-itu-web-scraping/
+Web Scrapping adalah pengambilan sebuah dokumen dari suatu website secara semi-terstruktur dari internet, berupa halaman-halamn web dalam bahasa markup seperti HTML atau XHTML, dan menganalisis dokumen agar dapat mengambil data tertentu. 
+
+https://stackoverflow.com/questions/45370018/selenium-working-with-chrome-but-not-headless-chrome
+
+https://realpython.com/beautiful-soup-web-scraper-python/
