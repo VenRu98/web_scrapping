@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product From Marketplace</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }} ">
+</head>
+
+<body>
+    <h1>How old are you?</h1>
+    <form action="/send" method="POST">
+        <div class="form-group">
+            <input type="text" name="age">
+        </div>
+        <input type="submit" value="submit" class="btn btn-primary">
+    </form>
+    {% if not age %}
+    <h1>Your age is {{ age }}</h1>
+    {% endif %}
+</body>
+
+</html>
