@@ -1,24 +1,129 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout/layout.html" %} {% block content %}
+<div class="row justify-content-md-center">
+    <div class="col col-lg-5">
+        <form action="/" method="POST">
+            <div class="form-group">
+                <label for="InputBarang">Nama Barang</label>
+                <input name="age" type="text" class="form-control" id="InputBarang" placeholder="Masukkan Nama Barang">
+            </div>
+            <input type="submit" value="Compare" class="btn btn-primary">
+        </form>
+    </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product From Marketplace</title>
-    <link rel="stylesheet" href=" {{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }} ">
-</head>
-
-<body>
-    <h1>How old are you?</h1>
-    <form action="/send" method="POST">
-        <div class="form-group">
-            <input type="text" name="age">
+</div>
+<div class="row">
+    <div class="col-sm">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Bukalapak</h5>
+                <div class="table-responsive">
+                    <table class="table display table-striped table-bordered" id="bukalapak">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Link</th>
+                                <th>Nama Produk</th>
+                                <th>Harga</th>
+                                <th>Rating </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in dataBukalapak%}
+                            <tr>
+                                <td class="align-middle">
+                                    <a href="{{ i[0] }}"><img class="img-thumbnail" src="{{ url_for('static', filename='assets/linkLogo.png') }} "></a>
+                                </td>
+                                <td class="align-middle">{{ i[1] }}</td>
+                                <td class="align-middle">{{ i[2] }}</td>
+                                <td class="rating align-middle">
+                                    {% for j in range(5) %}
+                                    <div class="row">
+                                        ( {{ 5-j }} )<img class="" src="{{ url_for('static', filename='assets/star.png') }} "> {{ i[3][j] }}
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <input type="submit" value="submit" class="btn btn-primary">
-    </form>
-    {% if not age %}
-    <h1>Your age is {{ age }}</h1>
-    {% endif %}
-</body>
+    </div>
+    <div class="col-sm">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Lazada</h5>
+                <div class="table-responsive">
+                    <table class="table display table-striped table-bordered" id="lazada">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Link</th>
+                                <th>Nama Produk</th>
+                                <th>Harga</th>
+                                <th>Rating </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in dataLazada%}
+                            <tr>
+                                <td class="align-middle">
+                                    <a href="{{ i[0] }}"><img class="img-thumbnail" src="{{ url_for('static', filename='assets/linkLogo.png') }} "></a>
+                                </td>
+                                <td class="align-middle">{{ i[1] }}</td>
+                                <td class="align-middle">{{ i[2] }}</td>
+                                <td class="rating align-middle">
+                                    {% for j in range(5) %}
+                                    <div class="row">
+                                        ( {{ 5-j }} )<img class="" src="{{ url_for('static', filename='assets/star.png') }} "> {{ i[3][j] }}
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Tokopedia</h5>
+                <div class="table-responsive">
+                    <table class="table display table-striped table-bordered" id="tokopedia">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Link</th>
+                                <th>Nama Produk</th>
+                                <th>Harga</th>
+                                <th>Rating </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in dataTokopedia%}
+                            <tr>
+                                <td class="align-middle">
+                                    <a href="{{ i[0] }}"><img class="img-thumbnail" src="{{ url_for('static', filename='assets/linkLogo.png') }} "></a>
+                                </td>
+                                <td class="align-middle">{{ i[1] }}</td>
+                                <td class="align-middle">{{ i[2] }}</td>
+                                <td class="rating align-middle">
+                                    {% for j in range(5) %}
+                                    <div class="row">
+                                        ( {{ 5-j }} )<img class="" src="{{ url_for('static', filename='assets/star.png') }} "> {{ i[3][j] }}
+                                    </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-</html>
+
+{% endblock %}
