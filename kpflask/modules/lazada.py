@@ -98,4 +98,6 @@ class Lazada:
                 dataNonRating[num].append(list(self.__getRating()))
             return dataNonRating
         except:
+            if dataNonRating != None:
+                return dataNonRating
             return ["Access Denied"]

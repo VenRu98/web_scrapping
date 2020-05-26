@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $('#bukalapak').DataTable({
-        scrollX: true,
+        scrollX: false,
         scrollCollapse: true,
         responsive: true,
         autoWidth: false,
@@ -19,5 +19,10 @@ $(document).ready(function() {
         responsive: true,
         autoWidth: false,
         lengthMenu: [5, 10],
+    });
+    $(".linkbaris").on('mouseup', function(e) {
+        if (e.which == 2 || e.which == 1) {
+            window.open($(this).data("href"), "_blank");
+        }
     });
 });

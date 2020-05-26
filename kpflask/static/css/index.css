@@ -5,3 +5,12 @@
 .rating img {
     width: 20px;
 }
+
+.linkbaris {
+    cursor: pointer;
+}
+
+table {
+    overflow-x: hidden;
+    padding-right: 0;
+}

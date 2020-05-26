@@ -1,5 +1,7 @@
 # import library
 from flask import Flask, render_template, request
+from modules.tokopedia import Tokopedia
+
 
 # data dummy
 dataDummy=[['https://www.lazada.co.id/products/lampu-motor-h4-headlight-led-hs1-6w-6500k-1-pcs-lampu-motor-led-variasi-depan-costum-proji-super-terang-tahan-lama-i1258130229-s2127146926.html?search=1',
@@ -45,10 +47,17 @@ dataDummy=[['https://www.lazada.co.id/products/lampu-motor-h4-headlight-led-hs1-
 
 app=Flask(__name__,template_folder='page')
 
+
+
 @app.route('/',methods=['GET','POST'])
 def home():
-    if request.method == 'POST':
-        age=request.form['age']
-        return render_template('index.html',age=age)
-    return render_template('index.html',dataTokopedia=dataDummy,dataBukalapak=dataDummy,dataLazada=dataDummy)
+  
+
+  selectProxy="option1"
+  if request.method == 'POST':
+      barang=request.form['barang']
+      selectProxy = request.form['inlineRadioOptions']
+      print(selectProxy)
+      return render_template('index.html',proxy=selectProxy,dataTokopedia=dataDummy,dataBukalapak=dataDummy,dataLazada=dataDummy)
+  return render_template('index.html',proxy=selectProxy,dataTokopedia=dataDummy,dataBukalapak=dataDummy,dataLazada=dataDummy)
 app.run(debug=True)
