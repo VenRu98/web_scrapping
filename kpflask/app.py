@@ -51,8 +51,6 @@ app=Flask(__name__,template_folder='page')
 
 @app.route('/',methods=['GET','POST'])
 def home():
-  
-
   selectProxy="option1"
   if request.method == 'POST':
       barang=request.form['barang']
@@ -60,4 +58,8 @@ def home():
       print(selectProxy)
       return render_template('index.html',proxy=selectProxy,dataTokopedia=dataDummy,dataBukalapak=dataDummy,dataLazada=dataDummy)
   return render_template('index.html',proxy=selectProxy,dataTokopedia=dataDummy,dataBukalapak=dataDummy,dataLazada=dataDummy)
+
+@app.route('/about',methods=['GET'])
+def about():
+  return render_template('about.html')
 app.run(debug=True)

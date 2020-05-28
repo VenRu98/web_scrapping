@@ -14,3 +14,7 @@ table {
     overflow-x: hidden;
     padding-right: 0;
 }
+
+body {
+    padding-bottom: 30px;
+}

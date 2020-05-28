@@ -5,7 +5,7 @@ class Tokopedia:
     def __init__(self,linkTool,driver,batas):
         linkURLTokopedia="https://www.tokopedia.com/search?st=product&rt=4%2C5&q="
         driver.get(linkURLTokopedia+linkTool)
-        driver.execute_script('window.scrollBy(0, 200)');
+        driver.execute_script('window.scrollBy(0, 200)')
         self.driver=driver
        
     def __waitingPageRating(self):
@@ -13,7 +13,7 @@ class Tokopedia:
         script = 'document.querySelector("#zeus-root > div > div.css-1jdotmr > div:nth-child(5) > div.css-drikti.e1ufc1ph1 > div.css-nvt3av.e1ufc1ph0 > div > div:nth-child(1) > div.css-udfbf8.e1ufc1ph0 > p")'
         while(driver.execute_script('return '+script) == None ):
             # Untuk trigger supaya page dapat loading
-            driver.execute_script('window.scrollBy(0, 400)');
+            driver.execute_script('window.scrollBy(0, 400)')
             time.sleep(.3)
             
     def __waitingPageMain(self,pos):
@@ -21,7 +21,7 @@ class Tokopedia:
         script='document.querySelector("#zeus-root > div > div.css-jau1bt > div > div.css-rjanld > div.css-jza1fo > div:nth-child({})")'.format(pos)
         while(driver.execute_script('return '+script) == None ):
             # Untuk trigger supaya page dapat loading
-            driver.execute_script('window.scrollBy(0, 100)');
+            driver.execute_script('window.scrollBy(0, 100)')
             time.sleep(.3)
             
     def __getAllNonRating(self,driver,batas):

@@ -1,9 +1,9 @@
 {% extends "layout/layout.html" %} {% block content %}
-<div class="row justify-content-md-center">
+<div class="row justify-content-md-center my-5">
     <div class="col col-lg-5">
         <form action="/" method="POST">
             <div class="form-group">
-                <label for="InputBarang">Nama Barang</label>
+                <label for="InputBarang">Product Name</label>
                 <input name="barang" type="text" class="form-control" id="InputBarang" placeholder="Masukkan Nama Barang">
             </div>
             <div class="form-group form-inline">
@@ -18,14 +18,14 @@
                 </div>
             </div>
 
-            <div><input type="submit" value="Compare" class="btn btn-primary"></div>
+            <div><input type="submit" value="Compare" class="btn " style="background-color: #8dbfe7;"></div>
 
         </form>
     </div>
 
 </div>
-<div class="row">
-    <div class="card">
+<div class="row my-4">
+    <div class="card shadow">
         <div class="card-body">
             <h5 class="card-title">Bukalapak</h5>
             <div class="table-responsive">
@@ -57,8 +57,8 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="card">
+<div class="row my-4 ">
+    <div class="card shadow">
         <div class="card-body">
             <h5 class="card-title">Lazada</h5>
             <div class="table-responsive">
@@ -90,8 +90,8 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="card">
+<div class="row my-4">
+    <div class="card shadow">
         <div class="card-body">
             <h5 class="card-title">Tokopedia</h5>
             <div class="table-responsive">
@@ -125,6 +125,5 @@
         </div>
     </div>
 </div>
-
 
 {% endblock %}

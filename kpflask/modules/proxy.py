@@ -45,7 +45,6 @@ class Proxy:
         driverssl,driver=self.driverssl,self.driver
         self.__loadMoreData(driverssl)
         self.__loadMoreData(driver)
-        
         proxy=set()
         try:
             proxy = self.__scrapingDataProxy(proxy,driverssl)

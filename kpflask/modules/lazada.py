@@ -31,15 +31,15 @@ class Lazada:
                 driver.get(driver.current_url)
                 time.sleep(5)
         driver.get(driver.current_url)
-        driver.execute_script('window.scrollBy(0, 200)');
+        driver.execute_script('window.scrollBy(0, 200)')
     
     def __waitingPageMain(self,pos):
         driver=self.driver
         script='document.querySelector("#root > div > div.ant-row.c10-Cg > div.ant-col-24 > div > div.ant-col-20.ant-col-push-4.c1z9Ut > div.c1_t2i > div:nth-child({})")'.format(pos)
         while(driver.execute_script('return '+script) == None ):
             # Untuk trigger supaya page dapat loading
-            driver.execute_script('window.scrollBy(0, 200)');
-            driver.execute_script('window.scrollBy(0, -200)');
+            driver.execute_script('window.scrollBy(0, 200)')
+            driver.execute_script('window.scrollBy(0, -200)')
             time.sleep(.3)
     
     def __getAllNonRating(self):
@@ -73,7 +73,7 @@ class Lazada:
             script =  'document.querySelector("#module_product_review > div > div:nth-child(1) > div.mod-rating > div > div > div.detail > ul > li:nth-child({}) > span.percent")'.format(i+1)
             hasil= driver.execute_script('return '+script) 
             script += '.textContent'
-            yield driver.execute_script('return '+script)  if hasil != None else '0';
+            yield driver.execute_script('return '+script)  if hasil != None else '0'
 
     def search(self):
         driver=self.driver

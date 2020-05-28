@@ -4,7 +4,7 @@ class Bukalapak:
     def __init__(self,linkTool,driver,batas):
         linkURLBukalapak="https://www.bukalapak.com/products?utf8=%E2%9C%93&search%5Bkeywords%5D={}&search%5Bsort_by%5D=rating_ratio%3Adesc&search%5Bbrand_seller%5D=0&search%5Bnew%5D=0&search%5Bnew%5D=1&search%5Bused%5D=0&search%5Bused%5D=1&search%5Bfree_shipping_coverage%5D=&search%5Bprovince%5D=&search%5Bcity%5D=&search%5Bcourier%5D=&search%5Bprice_min%5D=&search%5Bprice_max%5D=&search%5Brating_gte%5D=1&search%5Brating_lte%5D=5&search%5Btodays_deal%5D=0&search%5Binstallment%5D=0&search%5Bwholesale%5D=0&search%5Btop_seller%5D=0&search%5Bbrand_seller%5D=0".format(linkTool)
         driver.get(linkURLBukalapak)
-        driver.execute_script('window.scrollBy(0, 200)');
+        driver.execute_script('window.scrollBy(0, 200)')
         self.driver=driver
        
     def __waitingPageMain(self):
@@ -12,8 +12,8 @@ class Bukalapak:
         script='document.querySelector("#mod-product-list-2 > li:nth-child(1) > div > article")'
         while(driver.execute_script('return '+script) == None ):
             # Untuk trigger supaya page dapat loading
-            driver.execute_script('window.scrollBy(0, 200)');
-            driver.execute_script('window.scrollBy(0, -200)');
+            driver.execute_script('window.scrollBy(0, 200)')
+            driver.execute_script('window.scrollBy(0, -200)')
             time.sleep(.3)
             
     def __getAllNonRating(self,driver,batas):
@@ -44,7 +44,7 @@ class Bukalapak:
     def __getRating(self,driver):
         driver=self.driver
         scrapping=BeautifulSoup( driver.page_source,'lxml')
-        driver.execute_script('window.scrollBy(0, 1000)');
+        driver.execute_script('window.scrollBy(0, 1000)')
         data=  scrapping.findAll('span', attrs={'class':'u-fg--ash u-inline-block u-mrgn-left--3'})
         if len(data)==1:
             return ['0', '0', '0', '0', '0']
@@ -56,7 +56,8 @@ class Bukalapak:
                     totalRating = driver.execute_script('return document.querySelector("#section-main-product > div.c-product-details-section__main > div.c-main-product__head > div.c-main-product__head--left > div > div").textContent')
                 except:
                     return ['0', '0', '0', '0', '0']
-                totalRating = int(totalRating.split()[0])
+                totalRating = int( totalRating.split()[0].replace(".","") )
+                
                 for i in range (5):
                     hasil = driver.execute_script('return document.querySelector("#section-ulasan-barang > div.c-product-details-section__main > div > div.c-reviews__header > div.c-reviews__summary.section-main-content > div.c-reviews__summary-list.c-reviews__summary-list--filtered > div:nth-child({}) > div.list-item__percentage").textContent'.format(i+1)) 
                     hasil = hasil[:-1] if hasil[:-1] != '' else 0
