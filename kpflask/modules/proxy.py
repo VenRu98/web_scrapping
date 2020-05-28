@@ -1,3 +1,10 @@
+import random
+import requests
+import time
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from numpy import array
 class Proxy:
     driverssl,driver="",""
     def __init__(self,driverssl,driver):
@@ -12,9 +19,9 @@ class Proxy:
     
     def __loadMoreData(self,driverPage):
         src = driverPage.find_element_by_id('xpp')
-        ActionChains(driverPage).click(src).perform();
+        ActionChains(driverPage).click(src).perform()
         driverPage.execute_script('document.querySelector("#xpp").selectedIndex=4;document.querySelector("#xpp").form.submit()')
-        time.sleep(2)
+        # time.sleep(2)
     
     def __scrapingDataProxy(self,proxy,driverPage):
         count=0

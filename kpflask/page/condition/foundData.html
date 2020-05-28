@@ -1,0 +1,120 @@
+<h1 class="display-4  mt-5 text-center ">~ RESULT ~</h1>
+<p class="h4 text-center">{{ produk }}</p>
+<div class="row my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Bukalapak</h5>
+            <div class="table-responsive">
+                <table class="table display table-striped table-bordered" id="bukalapak">
+                    <thead>
+                        <tr>
+                            <th>Nama Produk</th>
+                            <th>Harga</th>
+                            <th>Rating </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in dataBukalapak %} {% if (i[0] != "#")%}
+                        <tr class="linkbaris" data-href="{{ i[0] }}">
+                            <td class="align-middle">{{ i[1] }}</td>
+                            <td class="align-middle">{{ i[2] }}</td>
+                            <td class="rating align-middle">
+                                {% for j in range(5) %}
+                                <div class="row">
+                                    ( {{ 5-j }} )<img class="" src="{{ url_for('static', filename='assets/star.png') }} "> {{ i[3][j] }}
+                                </div>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td class="align-middle" colspan="3">{{ i[1] }}</td>
+                        </tr>
+                        {% endif %} {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row my-4 ">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Lazada</h5>
+            <div class="table-responsive">
+                <table class="table display table-striped table-bordered" id="lazada">
+                    <thead>
+                        <tr>
+                            <th>Nama Produk</th>
+                            <th>Harga</th>
+                            <th>Rating </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in dataLazada %} {% if (i[0] != "#")%}
+                        <tr class="linkbaris" data-href="{{ i[0] }}">
+                            <td class="align-middle">{{ i[1] }}</td>
+                            <td class="align-middle">{{ i[2] }}</td>
+                            <td class="rating align-middle">
+                                {% for j in range(5) %}
+                                <div class="row">
+                                    ( {{ 5-j }} )<img class="" src="{{ url_for('static', filename='assets/star.png') }} "> {{ i[3][j] }}
+                                </div>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td class="align-middle" colspan="3">{{ i[1] }}</td>
+                        </tr>
+                        {% endif %} {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row my-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Tokopedia</h5>
+            <div class="table-responsive">
+                <table class="table display table-striped table-bordered" id="tokopedia">
+                    <thead>
+                        <tr>
+                            <th>Nama Produk</th>
+                            <th>Harga</th>
+                            <th>Rating </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in dataTokopedia %} {% if (i[0] != "#")%}
+                        <tr class="linkbaris" data-href="{{ i[0] }}">
+                            <td class="align-middle">{{ i[1] }}</td>
+                            <td class="align-middle">{{ i[2] }}</td>
+                            <td class="rating align-middle">
+                                {% for j in range(5) %}
+                                <div class="row">
+                                    ( {{ 5-j }} )<img class="" src="{{ url_for('static', filename='assets/star.png') }} "> {{ i[3][j] }}
+                                </div>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td class="align-middle" colspan="3">{{ i[1] }}</td>
+                        </tr>
+                        {% endif %} {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .card {
+        margin: 0 auto;
+        float: none;
+        margin-bottom: 10px;
+    }
+</style>

@@ -1,4 +1,12 @@
+import random
+import requests
+import time
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from numpy import array
 class Lazada:
+    batas=0
     driver,batas="",0
     linkTool=""
     def __init__(self,linkTool,driver,batas):
@@ -29,7 +37,7 @@ class Lazada:
             else:
                 count+=1
                 driver.get(driver.current_url)
-                time.sleep(5)
+                time.sleep(2)
         driver.get(driver.current_url)
         driver.execute_script('window.scrollBy(0, 200)')
     
@@ -43,11 +51,11 @@ class Lazada:
             time.sleep(.3)
     
     def __getAllNonRating(self):
-        batas=self.batas
+        batas,driver=self.batas,self.driver
         driver=self.driver
         # memprioritaskan data barang yang dikeluarkan adalah data barang yang memiliki rating
         driver.execute_script('document.querySelector("#root > div > div.ant-row.c10-Cg > div.ant-col-24 > div > div.ant-col-4.ant-col-pull-20.c2cfh3 > div > div:nth-child(7) > div.c2uiAC > div:nth-child(1)").click();')
-        time.sleep(10)
+        time.sleep(2)
         scrapping = BeautifulSoup(driver.page_source,'lxml')
         if driver.execute_script('return document.querySelector("#root > div > div.ant-row.c10-Cg > div.ant-col-24 > div > div.ant-col-20.ant-col-push-4.c1z9Ut > div.c2Ce34 > div.c1nVRb")') != None:
             return -1
@@ -68,7 +76,7 @@ class Lazada:
 
     def __getRating(self):
         driver=self.driver
-        time.sleep(5)
+        # time.sleep(5)
         for i in range(5):
             script =  'document.querySelector("#module_product_review > div > div:nth-child(1) > div.mod-rating > div > div > div.detail > ul > li:nth-child({}) > span.percent")'.format(i+1)
             hasil= driver.execute_script('return '+script) 
@@ -89,7 +97,7 @@ class Lazada:
         try:
             dataNonRating=list(self.__getAllNonRating()) 
             if dataNonRating == []:
-                return ["Not Found"]
+                return [["#","Not Found","0",""]]
             dataLink=array(dataNonRating)
             for num,link in enumerate(list(dataLink[:,0])) :
                 driver.get(link)
@@ -100,4 +108,4 @@ class Lazada:
         except:
             if dataNonRating != None:
                 return dataNonRating
-            return ["Access Denied"]
+            return [["#","Access Denied","0",""]]

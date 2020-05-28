@@ -1,11 +1,20 @@
+import random
+import requests
+import time
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from numpy import array
 class Bukalapak:
     driver=""
     linktool=""
+    batas=0
     def __init__(self,linkTool,driver,batas):
         linkURLBukalapak="https://www.bukalapak.com/products?utf8=%E2%9C%93&search%5Bkeywords%5D={}&search%5Bsort_by%5D=rating_ratio%3Adesc&search%5Bbrand_seller%5D=0&search%5Bnew%5D=0&search%5Bnew%5D=1&search%5Bused%5D=0&search%5Bused%5D=1&search%5Bfree_shipping_coverage%5D=&search%5Bprovince%5D=&search%5Bcity%5D=&search%5Bcourier%5D=&search%5Bprice_min%5D=&search%5Bprice_max%5D=&search%5Brating_gte%5D=1&search%5Brating_lte%5D=5&search%5Btodays_deal%5D=0&search%5Binstallment%5D=0&search%5Bwholesale%5D=0&search%5Btop_seller%5D=0&search%5Bbrand_seller%5D=0".format(linkTool)
         driver.get(linkURLBukalapak)
         driver.execute_script('window.scrollBy(0, 200)')
         self.driver=driver
+        self.batas=batas
        
     def __waitingPageMain(self):
         driver=self.driver
@@ -27,7 +36,7 @@ class Bukalapak:
         Semua = [ filterBekas for filterBekas in Semua if not 'Bekas' in str(filterBekas) ]
         Semua = [ filterTutup for filterTutup in Semua if not 'Lapak Tutup' in str(filterTutup) ]
         Semua = [ filterAktif for filterAktif in Semua if not 'Pelapak Tidak Aktif' in str(filterAktif) ]
-        time.sleep(0.5)
+        # time.sleep(0.5)
         count_data = 0
         arraylink=[]
         for data in Semua:
@@ -69,12 +78,12 @@ class Bukalapak:
                     yield i.text
 
     def generateDataset(self):
-        driver=self.driver
+        batas,driver=self.batas,self.driver
         if 'Attention Required' in BeautifulSoup( driver.page_source,'lxml').find('title').text:
-            return ["Access Denied"]
+            return [["#","Access Denied","0",""]]
         dataNonRating=list(self.__getAllNonRating(driver,batas))
         if dataNonRating == []:
-            return ["Not Found"]
+            return [["#","Not Found","0",""]]
         dataLink=array(dataNonRating)
         for num,link in enumerate(list(dataLink[:,0])) :
             driver.get(link)

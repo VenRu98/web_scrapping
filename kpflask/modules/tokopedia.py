@@ -1,5 +1,12 @@
+import random
+import requests
+import time
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from numpy import array
 class Tokopedia:
-    batas=""
+    batas=0
     driver=""
     linktool=""
     def __init__(self,linkTool,driver,batas):
@@ -7,6 +14,7 @@ class Tokopedia:
         driver.get(linkURLTokopedia+linkTool)
         driver.execute_script('window.scrollBy(0, 200)')
         self.driver=driver
+        self.batas=batas
        
     def __waitingPageRating(self):
         driver=self.driver
@@ -32,7 +40,7 @@ class Tokopedia:
         if driver.execute_script('return document.querySelector("#zeus-root > div > div.css-jau1bt > div > div.css-rjanld > div.css-109jhir > div > div.css-v7ibj3 > div.css-lu7a1o")') != None:
             return -1
         # waiting time
-        time.sleep(1)
+        # time.sleep(1)
         self.__waitingPageMain(batas-1)
         Semua = scrapping.findAll('div', attrs={'class':'css-1g20a2m'})
         count_data = 0
@@ -56,11 +64,12 @@ class Tokopedia:
 
     def generateDataset(self):
         driver=self.driver
+        batas=self.batas
         if 'Access Denied' in BeautifulSoup( driver.page_source,'lxml').find('title').text:
-            return ["Access Denied"]
+            return [["#","Access Denied","0",""]]
         dataNonRating=list(self.__getAllNonRating(driver,batas)) 
         if dataNonRating == []:
-            return ["Not Found"]
+            return [["#","Not Found","0",""]]
         dataLink=array(dataNonRating)
         for num,link in enumerate(list(dataLink[:,0])) :
             driver.get(link)

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     $('#bukalapak').DataTable({
         scrollX: false,
         scrollCollapse: true,
