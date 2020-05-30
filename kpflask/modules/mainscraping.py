@@ -76,14 +76,16 @@ class MainScraping:
         try:
             bukalapak = Bukalapak(linkTool,driverBukalapak,batas)
             dataBukalapak= bukalapak.generateDataset()
-        except:
+            
+        except Exception as e:
+            print(e)
             dataBukalapak= [["#","Connection Error","0",""]]
             pass
 
         try:
             tokopedia = Tokopedia(linkTool,driverTokopedia,batas)
             dataTokopedia= tokopedia.generateDataset()
-        except BaseException as e:
+        except Exception as e:
             print(e)
             dataTokopedia= [["#","Connection Error","0",""]]
             pass
@@ -91,7 +93,7 @@ class MainScraping:
         try:
             lazada = Lazada(linkTool,driverLazada,batas)
             dataLazada= lazada.generateDataset()
-        except:
+        except Exception as e:
             dataLazada= [["#","Connection Error","0",""]]
             pass
         driverBukalapak.quit()

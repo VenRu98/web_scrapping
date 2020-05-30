@@ -12,11 +12,12 @@ from modules.mainscraping import *
 
 app=Flask(__name__,template_folder='page')
 
-dataTokopedia,dataLazada,dataBukalapak,selectProxy=None,None,None,"on"
+
 
 @app.route('/',methods=['GET','POST'])
 def home():
-  dataTokopedia,dataLazada,dataBukalapak,selectProxy=None,None,None,"on"
+  dataTokopedia,dataLazada,dataBukalapak,selectProxy=None,None,None,"off"
+  selectProxy="off"
   if request.method == 'POST':
     produk=request.form['produk']
     selectProxy = request.form['inlineRadioOptions']

@@ -1,7 +1,8 @@
-<h1 class="display-4  mt-5 text-center ">~ RESULT ~</h1>
+<h1 class="display-4  mt-5 text-center ">
+    ~ RESULT ~</h1>
 <p class="h4 text-center">{{ produk }}</p>
 <div class="row my-4">
-    <div class="card shadow">
+    <div class="card shadow  w-100">
         <div class="card-body">
             <h5 class="card-title">Bukalapak</h5>
             <div class="table-responsive">
@@ -15,8 +16,16 @@
                     </thead>
                     <tbody>
                         {% for i in dataBukalapak %} {% if (i[0] != "#")%}
-                        <tr class="linkbaris" data-href="{{ i[0] }}">
-                            <td class="align-middle">{{ i[1] }}</td>
+                        <tr class="h-100">
+                            <td class=" h-100">
+                                <div class="d-flex h-100 flex-column hoverlink">
+                                    <a class="h-100" href="{{ i[0] }}">
+                                        <div class="pl-4">
+                                            {{ i[1] }}
+                                        </div>
+                                    </a>
+                                </div>
+                            </td>
                             <td class="align-middle">{{ i[2] }}</td>
                             <td class="rating align-middle">
                                 {% for j in range(5) %}
@@ -38,7 +47,7 @@
     </div>
 </div>
 <div class="row my-4 ">
-    <div class="card shadow">
+    <div class="card shadow w-100">
         <div class="card-body">
             <h5 class="card-title">Lazada</h5>
             <div class="table-responsive">
@@ -52,8 +61,16 @@
                     </thead>
                     <tbody>
                         {% for i in dataLazada %} {% if (i[0] != "#")%}
-                        <tr class="linkbaris" data-href="{{ i[0] }}">
-                            <td class="align-middle">{{ i[1] }}</td>
+                        <tr class="h-100">
+                            <td class=" h-100">
+                                <div class="d-flex h-100 flex-column hoverlink">
+                                    <a class="h-100" href="{{ i[0] }}">
+                                        <div class="pl-4">
+                                            {{ i[1] }}
+                                        </div>
+                                    </a>
+                                </div>
+                            </td>
                             <td class="align-middle">{{ i[2] }}</td>
                             <td class="rating align-middle">
                                 {% for j in range(5) %}
@@ -75,11 +92,11 @@
     </div>
 </div>
 <div class="row my-4">
-    <div class="card shadow">
-        <div class="card-body">
+    <div class="card shadow  w-100">
+        <div class="card-body ">
             <h5 class="card-title">Tokopedia</h5>
             <div class="table-responsive">
-                <table class="table display table-striped table-bordered" id="tokopedia">
+                <table class="table display table-striped table-bordered" id="content">
                     <thead>
                         <tr>
                             <th>Nama Produk</th>
@@ -89,8 +106,16 @@
                     </thead>
                     <tbody>
                         {% for i in dataTokopedia %} {% if (i[0] != "#")%}
-                        <tr class="linkbaris" data-href="{{ i[0] }}">
-                            <td class="align-middle">{{ i[1] }}</td>
+                        <tr class="h-100">
+                            <td class=" h-100">
+                                <div class="d-flex h-100 flex-column hoverlink">
+                                    <a class="h-100" href="{{ i[0] }}">
+                                        <div class="pl-4">
+                                            {{ i[1] }}
+                                        </div>
+                                    </a>
+                                </div>
+                            </td>
                             <td class="align-middle">{{ i[2] }}</td>
                             <td class="rating align-middle">
                                 {% for j in range(5) %}
@@ -110,11 +135,10 @@
             </div>
         </div>
     </div>
-</div>
-<style>
-    .card {
-        margin: 0 auto;
-        float: none;
-        margin-bottom: 10px;
-    }
-</style>
+    <style>
+        .card {
+            margin: 0 auto;
+            float: none;
+            margin-bottom: 10px;
+        }
+    </style>

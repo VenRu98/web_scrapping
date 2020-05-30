@@ -12,6 +12,7 @@
 
 table {
     overflow-x: hidden;
+    overflow-y: hidden;
     padding-right: 0;
 }
 
@@ -27,4 +28,38 @@ body {
 
 .mx-2 li {
     margin-bottom: 10px;
+}
+
+.table-responsive {
+    overflow-x: hidden;
+}
+
+td>div .d-flex {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+/* Hover link untuk menandakan bahwa cell tersebut memiliki hyperlink */
+
+.hoverlink {
+    padding: 4% 0 0 0;
+    vertical-align: middle;
+    /* line-height: 90px; */
+    transition: .5s all;
+}
+
+.hoverlink:hover {
+    background-color: rgb(75, 100, 129);
+}
+
+.hoverlink a {
+    text-decoration: none;
+    color: black;
+}
+
+.hoverlink a:hover {
+    color: white;
 }
