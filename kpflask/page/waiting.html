@@ -1,0 +1,23 @@
+{% extends "layout/layoutWaiting.html" %} {% block content %}
+<script>
+    function navigate() {
+        window.location.href = 'result';
+    }
+    window.onbeforeunload = function() {
+        return "Are you sure want to cancel process?";
+    }
+    fetch('wait').then(navigate);
+</script>
+
+
+<div class=" h-100 row justify-content-md-center" style="margin-top: 15%;">
+    <div class="col col-lg-5">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" style="width: 7rem; height: 7rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

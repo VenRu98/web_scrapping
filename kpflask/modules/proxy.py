@@ -31,7 +31,7 @@ class Proxy:
                 speedproxy = driverPage.execute_script('return document.querySelector("body > table:nth-child(3) > tbody > tr:nth-child(5) > td > table > tbody > tr:nth-child({}) > td:nth-child(7) > table").getAttribute("width");'.format(3+count))
 
                 # menambah data proxy ssl dengan filter 'connection speed'
-                if int(speedproxy) > 22 :
+                if int(speedproxy) > 17 :
                     proxy.add(i.text)
                 count+=1
         return proxy

@@ -50,12 +50,14 @@ class Lazada:
     
     def __getAllNonRating(self):
         batas,driver=self.batas,self.driver
-        # memprioritaskan data barang yang dikeluarkan adalah data barang yang memiliki rating
-        driver.execute_script('document.querySelector("#root > div > div.ant-row.c10-Cg > div.ant-col-24 > div > div.ant-col-4.ant-col-pull-20.c2cfh3 > div > div:nth-child(7) > div.c2uiAC > div:nth-child(1)").click();')
         time.sleep(2)
-        scrapping = BeautifulSoup(driver.page_source,'lxml')
-        if driver.execute_script('return document.querySelector("#root > div > div.ant-row.c10-Cg > div.ant-col-24 > div > div.ant-col-20.ant-col-push-4.c1z9Ut > div.c2Ce34 > div.c1nVRb")') != None:
+        # memprioritaskan data barang yang dikeluarkan adalah data barang yang memiliki rating
+        try:
+            driver.execute_script('document.querySelector("#root > div > div.ant-row.c10-Cg > div.ant-col-24 > div > div.ant-col-4.ant-col-pull-20.c2cfh3 > div > div:nth-child(7) > div.c2uiAC > div:nth-child(1)").click();')
+        except:
             return -1
+        scrapping = BeautifulSoup(driver.page_source,'lxml')
+        
         count_data = 0 #initial count dari 0
         # waiting time
         self.__waitingPageMain(batas-1)
@@ -101,9 +103,8 @@ class Lazada:
                 dataNonRating[num].append(list(self.__getRating(driver)))
                 driver.quit()
             return dataNonRating
-        except:
-            if dataNonRating != None:
-                return dataNonRating
+        except Exception as e:
+            print (e)
             return [["#","Access Denied","0",""]]
         
     def __driver(self):

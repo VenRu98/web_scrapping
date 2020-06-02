@@ -20,6 +20,7 @@ class Tokopedia:
             driver.execute_script('window.scrollBy(0, 400)')
             time.sleep(.3)
             
+            
     def __waitingPageMain(self,pos):
         driver=self.driver
         script='document.querySelector("#zeus-root > div > div.css-jau1bt > div > div.css-rjanld > div.css-jza1fo > div:nth-child({})")'.format(pos)
@@ -27,15 +28,17 @@ class Tokopedia:
             # Untuk trigger supaya page dapat loading
             driver.execute_script('window.scrollBy(0, 100)')
             time.sleep(.3)
+            # memeriksa apakah barangnya ada atau tidak
+            if driver.execute_script('return document.querySelector("#zeus-root > div > div.css-jau1bt > div > div.css-rjanld > div.css-109jhir > div > div.css-v7ibj3 > div.css-lu7a1o")') != None:
+                return -1
             
     def __getAllNonRating(self):
         batas,driver=self.batas,self.driver
-        # memeriksa apakah barangnya ada atau tidak
-        if driver.execute_script('return document.querySelector("#zeus-root > div > div.css-jau1bt > div > div.css-rjanld > div.css-109jhir > div > div.css-v7ibj3 > div.css-lu7a1o")') != None:
-            return -1
+        
+        
         # waiting time
-        time.sleep(1)
-        self.__waitingPageMain(batas-1)
+        if self.__waitingPageMain(batas-1) == -1:
+            return -1
         
         scrapping=BeautifulSoup(driver.page_source,'lxml')
         Semua = scrapping.findAll('div', attrs={'class':'css-1g20a2m'})

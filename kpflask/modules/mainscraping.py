@@ -58,13 +58,12 @@ class MainScraping:
             driverProxy = self.__webdriverConfig(user_agent)
     
             proxy = Proxy(driverProxyssl,driverProxy)
-            dataProxy = proxy.generateDataProxy()
+            dataProxy,ipProxy,portProxy = proxy.generateDataProxy(),None,None
             if dataProxy != None:
                 dataProxy=dataProxy.split(":")
                 ipProxy,portProxy=dataProxy[0],dataProxy[1]
         else:
-            dataProxy=None
-            ipProxy,portProxy=None,None
+            dataProxy,ipProxy,portProxy=None,None,None
         driverLazada = self.__webdriverConfigUseProxy(dataProxy,ipProxy,portProxy,user_agent)
         driverTokopedia = self.__webdriverConfigUseProxy(dataProxy,ipProxy,portProxy,user_agent)
         driverBukalapak = self.__webdriverConfigUseProxy(dataProxy,ipProxy,portProxy,user_agent)
@@ -77,7 +76,7 @@ class MainScraping:
             bukalapak = Bukalapak(linkTool,driverBukalapak,batas)
             dataBukalapak= bukalapak.generateDataset()
             
-        except Exception as e:
+        except (Exception,NoSuchElementException) as e:
             print(e)
             dataBukalapak= [["#","Connection Error","0",""]]
             pass
@@ -85,7 +84,7 @@ class MainScraping:
         try:
             tokopedia = Tokopedia(linkTool,driverTokopedia,batas)
             dataTokopedia= tokopedia.generateDataset()
-        except Exception as e:
+        except (Exception,NoSuchElementException)as e:
             print(e)
             dataTokopedia= [["#","Connection Error","0",""]]
             pass
@@ -93,7 +92,8 @@ class MainScraping:
         try:
             lazada = Lazada(linkTool,driverLazada,batas)
             dataLazada= lazada.generateDataset()
-        except Exception as e:
+        except (Exception,NoSuchElementException) as e:
+            print(e)
             dataLazada= [["#","Connection Error","0",""]]
             pass
         driverBukalapak.quit()

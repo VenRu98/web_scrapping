@@ -44,22 +44,19 @@ td>div .d-flex {
 
 /* Hover link untuk menandakan bahwa cell tersebut memiliki hyperlink */
 
+a {
+    text-decoration: none;
+}
+
 .hoverlink {
     padding: 4% 0 0 0;
     vertical-align: middle;
-    /* line-height: 90px; */
     transition: .5s all;
+    color: black;
 }
 
 .hoverlink:hover {
     background-color: rgb(75, 100, 129);
-}
-
-.hoverlink a {
-    text-decoration: none;
-    color: black;
-}
-
-.hoverlink a:hover {
     color: white;
+    text-decoration: none;
 }

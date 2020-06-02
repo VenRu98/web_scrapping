@@ -6,19 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Price Comparison</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href=" {{ url_for('static', filename='lib/datatable/datatables.min.css') }} ">
-    <link rel="stylesheet" href=" {{ url_for('static', filename='css/index.css') }} ">
 </head>
 
 <body style="background-color: #f1f1f1;">
     <nav class="navbar sticky-top navbar-light  px-5" style="background-color: #212529;">
         <a class="navbar-brand text-light" href="#">Price Comparison</a>
-        <div class="navbar-right">
-            <a href="/result"><button  class="btn text-light mr-sm-2" style="background-color: #41474b;">Home</button></a>
-            <a href="/about"><button class="btn text-light my-2 my-sm-0" style="background-color: #41474b;">About</button></a>
-        </div>
     </nav>
-    <div class="container" style="height: 100%;">
+    <div class="container h-100">
 
         {% block content %}{% endblock %}
     </div>
@@ -26,8 +20,6 @@
         <div class="text-light container footer-copyright text-left px-4 py-3">Steven Rumanto - 1772026 | Price Comparison @ 2020</div>
 
     </footer>
-    <script src=" {{ url_for('static', filename='lib/datatable/datatables.min.js') }} "></script>
-    <script src=" {{ url_for('static', filename='js/index.js') }} "></script>
 </body>
 
 
