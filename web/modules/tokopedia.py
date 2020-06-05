@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from numpy import array
+from concurrent.futures import ThreadPoolExecutor
 
 class Tokopedia:
     batas,driver="",""
@@ -13,13 +14,14 @@ class Tokopedia:
         driver.get(linkURLTokopedia+linkTool)
         driver.execute_script('window.scrollBy(0, 200)')
         self.driver,self.batas=driver,batas
+        
     def __waitingPageRating(self,driver):
         script = 'document.querySelector("#zeus-root > div > div.css-1jdotmr > div:nth-child(5) > div.css-drikti.e1ufc1ph1 > div.css-nvt3av.e1ufc1ph0 > div > div:nth-child(1) > div.css-udfbf8.e1ufc1ph0 > p")'
         while(driver.execute_script('return '+script) == None ):
             # Untuk trigger supaya page dapat loading
-            driver.execute_script('window.scrollBy(0, 400)')
+            driver.execute_script('window.scrollBy(0, 200)')
+            driver.execute_script('window.scrollBy(0, -100)')
             time.sleep(.3)
-            
             
     def __waitingPageMain(self,pos):
         driver=self.driver
@@ -34,15 +36,11 @@ class Tokopedia:
             
     def __getAllNonRating(self):
         batas,driver=self.batas,self.driver
-        
-        
         # waiting time
         if self.__waitingPageMain(batas-1) == -1:
             return -1
-        
         scrapping=BeautifulSoup(driver.page_source,'lxml')
         Semua = scrapping.findAll('div', attrs={'class':'css-1g20a2m'})
-        
         count_data = 0
         arraylink=[]
         for data in Semua:
@@ -53,7 +51,6 @@ class Tokopedia:
             judul = data.find('span',attrs={'css-1bjwylw'})
             harga = data.find('span',attrs={'css-o5uqvq'})
             yield [link,judul.text,harga.text[3:].replace(".","")]
-
 
     def __getRating(self,driver):
         for i in range(5):
@@ -69,18 +66,25 @@ class Tokopedia:
         if dataNonRating == []:
             return [["#","Not Found","0",""]]
         dataLink=array(dataNonRating)
-        
-        for num,link in enumerate(list(dataLink[:,0])) :
-            driver=self.__driver()
-            driver.get(link)
-            
-            if "(" in BeautifulSoup(driver.page_source,'lxml').findAll("span")[2].text:
-                self.__waitingPageRating(driver)
-                
-            dataNonRating[num].append(list(self.__getRating(driver)))
-            driver.quit()
+        futures = []
+        with ThreadPoolExecutor(max_workers=5) as ex:
+            for link in dataLink[:,0]:
+                futures.append(ex.submit(self.__getContent,link))
+        for num,future in enumerate(futures):
+            dataNonRating[num].append(future.result())
         return dataNonRating
 
+
+    def __getContent(self,link):
+        driver=self.__driver()
+        driver.get(link)
+        time.sleep(1)
+        if "(" in BeautifulSoup(driver.page_source,'lxml').findAll("span")[0].text:
+            self.__waitingPageRating(driver)
+        hasil = list(self.__getRating(driver))
+        driver.quit()
+        return hasil
+    
     def __driver(self):
         acak = random.randint(0, 6)
         user_agent = 'Firefox/7{}.0 ( Win64; x64; Linux x86_64) Chrome/75.0.3770.142 Safari/537.36'.format(acak)

@@ -30,8 +30,8 @@ class MainScraping:
             profile.set_preference("network.proxy.ssl_port",int(portProxy))
             profile.set_preference("network.proxy.socks",ipProxy)
             profile.set_preference("network.proxy.socks_port",int(portProxy))
-            profile.set_preference("general.useragent.override", user_agent)
-            profile.update_preferences()
+        profile.set_preference("general.useragent.override", user_agent)
+        profile.update_preferences()
         options = webdriver.FirefoxOptions()
         options.add_argument('--private')
         options.add_argument('--no-sandbox')
@@ -76,7 +76,7 @@ class MainScraping:
             bukalapak = Bukalapak(linkTool,driverBukalapak,batas)
             dataBukalapak= bukalapak.generateDataset()
             
-        except (Exception,NoSuchElementException) as e:
+        except (Exception,NoSuchElementException,ConnectionError ) as e:
             print(e)
             dataBukalapak= [["#","Connection Error","0",""]]
             pass
@@ -84,7 +84,7 @@ class MainScraping:
         try:
             tokopedia = Tokopedia(linkTool,driverTokopedia,batas)
             dataTokopedia= tokopedia.generateDataset()
-        except (Exception,NoSuchElementException)as e:
+        except (Exception,NoSuchElementException,ConnectionError )as e:
             print(e)
             dataTokopedia= [["#","Connection Error","0",""]]
             pass
@@ -92,7 +92,7 @@ class MainScraping:
         try:
             lazada = Lazada(linkTool,driverLazada,batas)
             dataLazada= lazada.generateDataset()
-        except (Exception,NoSuchElementException) as e:
+        except (Exception,NoSuchElementException,ConnectionError ) as e:
             print(e)
             dataLazada= [["#","Connection Error","0",""]]
             pass

@@ -21,7 +21,7 @@ class Proxy:
         src = driverPage.find_element_by_id('xpp')
         ActionChains(driverPage).click(src).perform()
         driverPage.execute_script('document.querySelector("#xpp").selectedIndex=4;document.querySelector("#xpp").form.submit()')
-        # time.sleep(2)
+        time.sleep(1)
     
     def __scrapingDataProxy(self,proxy,driverPage):
         count=0
@@ -56,8 +56,9 @@ class Proxy:
         try:
             proxy = self.__scrapingDataProxy(proxy,driverssl)
             proxy = self.__scrapingDataProxy(proxy,driver)
-        except:
-            return None
+        except (Exception,NoSuchElementException) as e:
+            print(e)
+            pass
         driverssl.quit()
         driver.quit()
         return self.__testProxy(proxy)

@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from numpy import array
-
+from concurrent.futures import ThreadPoolExecutor
 
 class Bukalapak:
     driver,batas="",0
@@ -16,26 +16,20 @@ class Bukalapak:
         self.driver,self.batas=driver,batas
        
     def __waitingPageMain(self):
-        driver=self.driver
-        script='document.querySelector("#mod-product-list-2 > li:nth-child(1) > div > article")'
-        while(driver.execute_script('return '+script) == None ):
-            # Untuk trigger supaya page dapat loading
+        driver = self.driver
+        for i in range(5):
             driver.execute_script('window.scrollBy(0, 200)')
-            driver.execute_script('window.scrollBy(0, -200)')
+            driver.execute_script('window.scrollBy(0, -100)')
             time.sleep(.3)
             
     def __getAllNonRating(self):
         driver,batas=self.driver,self.batas
         scrapping=BeautifulSoup( driver.page_source,'lxml')
-        if driver.execute_script('return document.querySelector("#display_product_search > div.content-segment.blank-slate > p")') != None:
+        if driver.execute_script('return document.querySelector("#product-explorer-container > div > div > div.bl-flex-item.bl-product-list-wrapper > div > div > div > div:nth-child(1) > div > div:nth-child(2) > p.mb-8.bl-text.bl-text--subheading-1")') != None:
             return -1
         # waiting time
         self.__waitingPageMain()
-        Semua = scrapping.findAll('article', attrs={'class':'product-display'})
-        Semua = [ filterBekas for filterBekas in Semua if not 'Bekas' in str(filterBekas) ]
-        Semua = [ filterTutup for filterTutup in Semua if not 'Lapak Tutup' in str(filterTutup) ]
-        Semua = [ filterAktif for filterAktif in Semua if not 'Pelapak Tidak Aktif' in str(filterAktif) ]
-        time.sleep(0.5)
+        Semua = scrapping.findAll('div', attrs={'class':'bl-product-card__wrapper'})
         count_data = 0
         arraylink=[]
         for data in Semua:
@@ -43,11 +37,9 @@ class Bukalapak:
                 break
             count_data+=1
             link=data.find('a')['href']
-            judul=data.find('a',attrs={'product__name'})
-            harga=data.find('span',attrs={'amount'})
-
-            yield [link,judul.text,harga.text.replace(".","")]
-
+            judul=data.find('a',attrs={'bl-link'})
+            harga=data.find('p',attrs={'bl-text bl-text--subheading-2 bl-text--semi-bold bl-text--ellipsis__1'})
+            yield [link,judul.text,harga.text.strip()[2:].replace(".","")]
 
     def __getRating(self,driver):
         scrapping=BeautifulSoup( driver.page_source,'lxml')
@@ -57,7 +49,6 @@ class Bukalapak:
             return ['0', '0', '0', '0', '0']
         else:
             if data == []:
-                
                 data=  scrapping.findAll('div', attrs={'class':'list-item__percentage'})
                 try:
                     totalRating = driver.execute_script('return document.querySelector("#section-main-product > div.c-product-details-section__main > div.c-main-product__head > div.c-main-product__head--left > div > div").textContent')
@@ -82,14 +73,28 @@ class Bukalapak:
         if dataNonRating == []:
             return [["#","Not Found","0",""]]
         dataLink=array(dataNonRating)
+        futures = []
+        with ThreadPoolExecutor(max_workers=5) as ex:
+            for link in dataLink[:,0]:
+                futures.append(ex.submit(self.__getContent,link))
+
+        for num,future in enumerate(futures):
+            dataNonRating[num].append(future.result())
+        return dataNonRating
+    
         for num,link in enumerate(list(dataLink[:,0])) :
-            
             driver = self.__driver()
             driver.get(link)
-        
             dataNonRating[num].append(list(self.__getRating(driver)))
             driver.quit()
         return dataNonRating
+    
+    def __getContent(self,link):
+        driver = self.__driver()
+        driver.get(link)
+        hasil = list(self.__getRating(driver))
+        driver.quit()
+        return hasil
     
     def __driver(self):
         acak = random.randint(0, 6)

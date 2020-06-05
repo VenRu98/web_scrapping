@@ -33,7 +33,7 @@ def wait():
 
   scraping = MainScraping(selectProxy,produk)
   dataTokopedia,dataLazada,dataBukalapak=scraping.scrapingWebsite()
-  
+
   return jsonify("wait")
 
 @app.route('/result')

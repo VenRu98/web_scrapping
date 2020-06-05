@@ -3,9 +3,7 @@
     function navigate() {
         window.location.href = 'result';
     }
-    window.onbeforeunload = function() {
-        return "Are you sure want to cancel process?";
-    }
+    window.onbeforeunload = null;
     fetch('wait').then(navigate);
 </script>
 

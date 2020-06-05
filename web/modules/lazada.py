@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from numpy import array
+from concurrent.futures import ThreadPoolExecutor
 
 class Lazada:
     driver,linkTool,batas="","",0
@@ -15,7 +16,6 @@ class Lazada:
         driver.refresh()
         time.sleep(1)
         
-            
     # cekCaptcha Page
     def __cekCaptcha(self):
         driver=self.driver
@@ -23,6 +23,7 @@ class Lazada:
     
     def __prosesCaptcha(self):
         driver=self.driver
+        time.sleep(1)
         scrapping = BeautifulSoup(driver.page_source,'lxml')
         #passing recaptha slider
         count=0
@@ -35,7 +36,7 @@ class Lazada:
             else:
                 count+=1
                 driver.get(driver.current_url)
-                time.sleep(3)
+                time.sleep(1)
         driver.get(driver.current_url)
         driver.execute_script('window.scrollBy(0, 200)')
     
@@ -57,7 +58,6 @@ class Lazada:
         except:
             return -1
         scrapping = BeautifulSoup(driver.page_source,'lxml')
-        
         count_data = 0 #initial count dari 0
         # waiting time
         self.__waitingPageMain(batas-1)
@@ -72,9 +72,8 @@ class Lazada:
             harga=data.find('span',attrs={'c13VH6'})
             yield [link,judul.text,harga.text[2:].replace(".","")]
 
-
     def __getRating(self,driver):
-        time.sleep(5)
+#         time.sleep(5)
         for i in range(5):
             script =  'document.querySelector("#module_product_review > div > div:nth-child(1) > div.mod-rating > div > div > div.detail > ul > li:nth-child({}) > span.percent")'.format(i+1)
             hasil= driver.execute_script('return '+script) 
@@ -95,18 +94,30 @@ class Lazada:
             if dataNonRating == []:
                 return [["#","Not Found","0",""]]
             dataLink=array(dataNonRating)
-            for num,link in enumerate(list(dataLink[:,0])) :
-                driver=self.__driver()
-                driver.get(link)
-                time.sleep(0.3)
-                driver.execute_script('window.scrollBy(0, 3500)');
-                dataNonRating[num].append(list(self.__getRating(driver)))
-                driver.quit()
+            
+            futures = []
+            with ThreadPoolExecutor(max_workers=5) as ex:
+                for link in dataLink[:,0]:
+                    futures.append(ex.submit(self.__getContent,link))
+
+            for num,future in enumerate(futures):
+                dataNonRating[num].append(future.result())
             return dataNonRating
+        
         except Exception as e:
             print (e)
             return [["#","Access Denied","0",""]]
-        
+            pass
+    
+    def __getContent(self,link):
+        driver=self.__driver()
+        driver.get(link)
+        time.sleep(0.3)
+        driver.execute_script('window.scrollBy(0, 500)')
+        hasil = list(self.__getRating(driver))
+        driver.quit()
+        return hasil
+    
     def __driver(self):
         acak = random.randint(0, 6)
         user_agent = 'Firefox/7{}.0 ( Win64; x64; Linux x86_64) Chrome/75.0.3770.142 Safari/537.36'.format(acak)
