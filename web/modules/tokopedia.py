@@ -26,31 +26,39 @@ class Tokopedia:
     def __waitingPageMain(self,pos):
         driver=self.driver
         script='document.querySelector("#zeus-root > div > div.css-jau1bt > div > div.css-rjanld > div.css-jza1fo > div:nth-child({})")'.format(pos)
+        count = 0
         while(driver.execute_script('return '+script) == None ):
+            # memeriksa UI berubah atau tidak
+            if(count==30):
+                return "ui"
+            count+=1
             # Untuk trigger supaya page dapat loading
             driver.execute_script('window.scrollBy(0, 100)')
             time.sleep(.3)
             # memeriksa apakah barangnya ada atau tidak
             if driver.execute_script('return document.querySelector("#zeus-root > div > div.css-jau1bt > div > div.css-rjanld > div.css-109jhir > div > div.css-v7ibj3 > div.css-lu7a1o")') != None:
-                return -1
+                return "none"
+        return "complete"
             
     def __getAllNonRating(self):
         batas,driver=self.batas,self.driver
         # waiting time
-        if self.__waitingPageMain(batas-1) == -1:
-            return -1
-        scrapping=BeautifulSoup(driver.page_source,'lxml')
-        Semua = scrapping.findAll('div', attrs={'class':'css-1g20a2m'})
-        count_data = 0
-        arraylink=[]
-        for data in Semua:
-            if count_data==batas:
-                break
-            count_data+=1
-            link = data.find('a')['href']
-            judul = data.find('span',attrs={'css-1bjwylw'})
-            harga = data.find('span',attrs={'css-o5uqvq'})
-            yield [link,judul.text,harga.text[3:].replace(".","")]
+        wait= self.__waitingPageMain(batas-1)
+        if (wait != 'complete'):
+            yield wait
+        else:
+            scrapping=BeautifulSoup(driver.page_source,'lxml')
+            Semua = scrapping.findAll('div', attrs={'class':'css-1g20a2m'})
+            count_data = 0
+            arraylink=[]
+            for data in Semua:
+                if count_data==batas:
+                    break
+                count_data+=1
+                link = data.find('a')['href']
+                judul = data.find('span',attrs={'css-1bjwylw'})
+                harga = data.find('span',attrs={'css-o5uqvq'})
+                yield [link,judul.text,harga.text[3:].replace(".","")]
 
     def __getRating(self,driver):
         for i in range(5):
@@ -62,9 +70,12 @@ class Tokopedia:
         driver=self.driver
         if 'Access Denied' in BeautifulSoup( driver.page_source,'lxml').find('title').text:
             return [["#","Access Denied","0",""]]
-        dataNonRating=list(self.__getAllNonRating()) 
-        if dataNonRating == []:
+        dataNonRating=list(self.__getAllNonRating())
+        if dataNonRating == ['none']:
             return [["#","Not Found","0",""]]
+        elif dataNonRating == ['ui']:
+            return [["#","The HTML attribute has changed","0",""]]
+        
         dataLink=array(dataNonRating)
         futures = []
         with ThreadPoolExecutor(max_workers=5) as ex:

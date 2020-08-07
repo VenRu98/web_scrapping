@@ -26,20 +26,21 @@ class Bukalapak:
         driver,batas=self.driver,self.batas
         scrapping=BeautifulSoup( driver.page_source,'lxml')
         if driver.execute_script('return document.querySelector("#product-explorer-container > div > div > div.bl-flex-item.bl-product-list-wrapper > div > div > div > div:nth-child(1) > div > div:nth-child(2) > p.mb-8.bl-text.bl-text--subheading-1")') != None:
-            return -1
-        # waiting time
-        self.__waitingPageMain()
-        Semua = scrapping.findAll('div', attrs={'class':'bl-product-card__wrapper'})
-        count_data = 0
-        arraylink=[]
-        for data in Semua:
-            if count_data==batas:
-                break
-            count_data+=1
-            link=data.find('a')['href']
-            judul=data.find('a',attrs={'bl-link'})
-            harga=data.find('p',attrs={'bl-text bl-text--subheading-2 bl-text--semi-bold bl-text--ellipsis__1'})
-            yield [link,judul.text,harga.text.strip()[2:].replace(".","")]
+            yield "none"
+        else:
+            # waiting time
+            self.__waitingPageMain()
+            Semua = scrapping.findAll('div', attrs={'class':'bl-product-card__wrapper'})
+            count_data = 0
+            arraylink=[]
+            for data in Semua:
+                if count_data==batas:
+                    break
+                count_data+=1
+                link=data.find('a')['href']
+                judul=data.find('a',attrs={'bl-link'})
+                harga=data.find('p',attrs={'bl-text bl-text--subheading-2 bl-text--semi-bold bl-text--ellipsis__1'})
+                yield [link,judul.text,harga.text.strip()[2:].replace(".","")]
 
     def __getRating(self,driver):
         scrapping=BeautifulSoup( driver.page_source,'lxml')
@@ -71,6 +72,8 @@ class Bukalapak:
             return [["#","Access Denied","0",""]]
         dataNonRating=list(self.__getAllNonRating())
         if dataNonRating == []:
+            return [["#","The HTML attribute has changed","0",""]]
+        elif dataNonRating == ['none']:
             return [["#","Not Found","0",""]]
         dataLink=array(dataNonRating)
         futures = []

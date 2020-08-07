@@ -87,7 +87,11 @@ class Lazada:
         time.sleep(1)
         
     def generateDataset(self):
-        self.__search()
+        try:
+            self.__search()
+        except:
+            return [["#","The HTML attribute has changed","0",""]] 
+            pass
         self.__prosesCaptcha()
         try:
             dataNonRating=list(self.__getAllNonRating()) 
